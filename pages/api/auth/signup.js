@@ -4,7 +4,7 @@ import Users from '../../../model/Schema'
 import { hash } from 'bcryptjs';
 
 export default async function handler(req, res){
-    connectMongo().catch(error => res.json({ error: "Connection Failed...!"}))
+    connectMongo().catch(error => res.json({ error: "เชื่อมต่อฐานข้อมูลไม่ได้...!"}))
 
     // only post method is accepted
     if(req.method === 'POST'){
@@ -14,7 +14,7 @@ export default async function handler(req, res){
 
         // check duplicate users
         const checkexisting = await Users.findOne({ email });
-        if(checkexisting) return res.status(422).json({ message: "User Already Exists...!"});
+        if(checkexisting) return res.status(422).json({ message: "มีผู้ใช้ในระบบแล้ว...!"});
 
         // hash password
         Users.create({ username, email, password : await hash(password, 12)}, function(err, data){
